@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# default value for the log level
+LEVEL=2
+
+# output an usage
+function usage {
+    (>&2 echo -e "$1")
+}
+
+# output an error message
+function error {
+    (>&2 echo -e "ERR:  \e[101m$1\e[0m")
+}
+
+# output an debug message
+function debug {
+    if [ $LEVEL -gt 2 ]; then
+        echo -e "DBG:  \e[93m$1\e[0m"
+    fi
+}
+
+# output an warning message
+function warn {
+    if [ $LEVEL -gt 1 ]; then
+        echo -e "WAR: $1"
+    fi
+}
+
+# output an info message
+function info {
+    if [ $LEVEL -gt 0 ]; then
+        echo -e "INFO: \e[92m$1\e[0m"
+    fi
+}
+
+# output an error message then exit
+function fatal {
+    error "$1"
+    exit $2
+}
+
+# exit if the program param $1 is not installed
+exit_if_not_installed() {
+    local toTest=$1
+
+    if [ `which $toTest` == "" ]; then
+        error "Can't find the $toTest package"
+        error "Please install the $toTest package before running"
+        exit 2
+    fi
+}
+
+# check if a directory exist, exit if not
+check_if_dir_exist() {
+    local dir=$1
+    local what=$2
+
+    if [ ! -d "$dir" ]; then
+        error "Invalid dir path for $what : [$dir]"
+        exit 3
+    fi
+}
+
+# check if a file exist, exit if not
+check_if_file_exist() {
+    local file=$1
+    local what=$2
+
+    if [ ! -f "$file" ]; then
+        error "Invalid file path for the $wath : [$file]"
+        exit 3
+    fi
+}
