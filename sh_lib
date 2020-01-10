@@ -9,28 +9,27 @@ function usage {
     (>&2 echo -e "$1")
 }
 
+function applyColor {
+    local content=$1
+    local color=$2
+
+    if [ $COLOR -eq 0 ]; then
+        echo "\e[$color$content\e[0m"
+    else
+        echo "$content"
+    fi
+}
+
 # output an error message
 function error {
-    content=""
-    if [ $COLOR -eq 0 ]; then
-        content="\e[101m$1\e[0m"
-    else
-        content="$1"
-    fi
-
+    content=$(applyColor "$1" "101m")
     (>&2 echo -e "ERR:  $content")
 }
 
 # output an debug message
 function debug {
-    content=""
-    if [ $COLOR -eq 0 ]; then
-        content="\e[93m$1\e[0m"
-    else
-        content="$1"
-    fi
-
     if [ $LEVEL -gt 2 ]; then
+        content=$(applyColor "$1" "93m")
         echo -e "DBG:  $content"
     fi
 }
@@ -44,14 +43,8 @@ function warn {
 
 # output an info message
 function info {
-    content=""
-    if [ $COLOR -eq 0 ]; then
-        content="\e[92m$1\e[0m"
-    else
-        content="$1"
-    fi
-
     if [ $LEVEL -gt 0 ]; then
+        content=$(applyColor "$1" "92m")
         echo -e "INFO: $content"
     fi
 }
