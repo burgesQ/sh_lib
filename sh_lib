@@ -90,7 +90,7 @@ check_if_file_exist() {
     local what=$2
 
     if [ ! -f "$file" ]; then
-        error "Invalid file path for the $wath : [$file]"
+        error "Invalid file path for the $what : [$file]"
         exit 3
     fi
 }
