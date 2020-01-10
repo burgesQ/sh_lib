@@ -2,6 +2,7 @@
 
 # default value for the log level
 LEVEL=2
+COLOR=0
 
 # output an usage
 function usage {
@@ -10,13 +11,27 @@ function usage {
 
 # output an error message
 function error {
-    (>&2 echo -e "ERR:  \e[101m$1\e[0m")
+    content=""
+    if [ $COLOR -eq 0 ]; then
+        content="\e[101m$1\e[0m"
+    else
+        content="$1"
+    fi
+
+    (>&2 echo -e "ERR:  $content")
 }
 
 # output an debug message
 function debug {
+    content=""
+    if [ $COLOR -eq 0 ]; then
+        content="\e[93m$1\e[0m"
+    else
+        content="$1"
+    fi
+
     if [ $LEVEL -gt 2 ]; then
-        echo -e "DBG:  \e[93m$1\e[0m"
+        echo -e "DBG:  $content"
     fi
 }
 
@@ -29,8 +44,15 @@ function warn {
 
 # output an info message
 function info {
+    content=""
+    if [ $COLOR -eq 0 ]; then
+        content="\e[92m$1\e[0m"
+    else
+        content="$1"
+    fi
+
     if [ $LEVEL -gt 0 ]; then
-        echo -e "INFO: \e[92m$1\e[0m"
+        echo -e "INFO: $content"
     fi
 }
 
