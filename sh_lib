@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # default value for the log level
 LEVEL=2
@@ -22,7 +22,7 @@ function applyColor {
 
 # output an error message
 function error {
-    content=$(applyColor "$1" "101m")
+    content=$(applyColor "$1" "100m")
     (>&2 echo -e "ERR:  $content")
 }
 
