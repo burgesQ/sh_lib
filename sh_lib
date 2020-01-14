@@ -59,7 +59,7 @@ function fatal {
 exit_if_not_installed() {
     local toTest=$1
 
-    if [ `which $toTest` == "" ]; then
+    if [[ `which $toTest` == "" ]]; then
         error "Can't find the $toTest package"
         error "Please install the $toTest package before running"
         exit 2
